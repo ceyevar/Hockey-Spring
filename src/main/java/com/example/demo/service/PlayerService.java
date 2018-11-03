@@ -39,9 +39,26 @@ public class PlayerService {
 		}
 
 	}
+	public int findPlayerPositionRankNoTeam(String position){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "SELECT rownum() FROM PLAYER " +
+				"WHERE position = ? AND teamid = -1" +
+				"ORDER BY ovlrating DESC";
+		try {
+			int data = jdbcTemplate.queryForObject(sql,
+					new Object[]{ position},
+					Integer.class);
+			return data;
+		}
+		catch(EmptyResultDataAccessException e){
+			return -1;
+		}
+
+	}
 	public Player findPlayerByID(int id){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "SELECT * FROM PLAYER WHERE id = ? ";
+		String sql = "SELECT * FROM PLAYER WHERE id = ?";
 		try {
 			Player data = jdbcTemplate.queryForObject(sql,
 					new PlayerMapper(),
@@ -53,6 +70,7 @@ public class PlayerService {
 		}
 
 	}
+
 	private static final class PlayerMapper implements RowMapper<Player> {
 
 		public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -61,6 +79,8 @@ public class PlayerService {
 			player.setId(rs.getInt("id"));
 			player.setOffskills(rs.getInt("offskills"));
 			player.setDefskills(rs.getInt("defskills"));
+			player.setTeamID(rs.getInt("teamid"));
+			player.setPosition(rs.getString("position"));
 			return player;
 		}
 	}
