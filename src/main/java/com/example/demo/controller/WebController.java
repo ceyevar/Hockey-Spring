@@ -27,6 +27,21 @@ public class WebController {
 		appMode = environment.getProperty("app-mode");
 	}
 
+
+
+	@RequestMapping(value="/changeSituation", method=RequestMethod.POST, params="situation=PP")
+	public String powerplay(ModelMap model) {
+		model.addAttribute("situation", "Power Play");
+		return "index";
+	}
+
+
+	@RequestMapping(value="/changeSituation", method=RequestMethod.POST, params="situation=5V5")
+	public String evenstrength(ModelMap model) {
+		model.addAttribute("situation", "Even Strength 5 v 5");
+		return "index";
+	}
+
 	@RequestMapping(value = "/player/{playerId}")
 	public String getPlayer(@PathVariable String playerId, ModelMap model){
 
@@ -37,8 +52,12 @@ public class WebController {
 		model.addAttribute("player", player);
 		return "player";
 	}
-	@RequestMapping(value = "/search")
-	public String Search(@ModelAttribute SearchCommand searchCommand,
+	@ModelAttribute("searchCommand")
+	public SearchCommand getSearchCommand(ModelMap model) {
+		return new SearchCommand();
+	}
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String Search(@ModelAttribute("searchCommmand") SearchCommand searchCommand,
 								ModelMap model) {
 
 		String searchString = searchCommand.getSearchString();
@@ -53,20 +72,24 @@ public class WebController {
 		return "search";
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/")
 	public String indexForm(Model model){
-		model.addAttribute("player", new Player());
-		model.addAttribute("searchCommand", new SearchCommand());
+		model.addAttribute("situation", "Even Strength 5 v 5");
 		return "index";
 	}
 
+	@ModelAttribute("player")
+	public Player getPlayer(ModelMap model) {
+		return new Player();
+	}
+
 	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
-	public String addPlayer(@ModelAttribute Player player,
+	public String addPlayer(@ModelAttribute("player") Player player,
 									 ModelMap model) {
 		model.addAttribute("name", player.getName());
 		model.addAttribute("offskills", player.getOffskills());
 		model.addAttribute("defskills", player.getDefskills());
 
-		return "player";
+		return "index";
 	}
 }

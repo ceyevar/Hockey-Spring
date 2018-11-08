@@ -17,7 +17,7 @@
     <link href="../static/css/custom.css" rel="stylesheet" th:href="@{/css/custom.css}"/>
 </head>
 <body class = "home-bg">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -43,12 +43,13 @@
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" method="get" th:action="@{/search}" th:object = "${searchCommand}" >
-            <input class="form-control mr-sm-2" th:field = "*{searchString}" />
+            <form class="form-inline my-2 my-lg-0" method="get" th:action="@{/search}" th:object = "${searchCommand}" >
+                <input class="form-control mr-sm-2" th:field = "*{searchString}" />
 
-            <input type="submit" value = "Search Teams"></button>
-        </form>
+                <input type="submit" value = "Search Teams"></button>
+            </form>
+        </ul>
+
     </div>
 </nav>
 
@@ -58,46 +59,72 @@
     <div class = "row" >
         <div class = "col">
             <div class = "card">
-                <div class="card-header">Current Lineup</div>
-                <div class = "col card-body" style = "margin-left: 5px;margin-right:5px;">
-                    <div class = "row  lineup-grid" >
+                <div class="card-header">
+                    <div class="btn-group dropright">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropright
+                        </button>
+                        <h2 th:text="${situation}"/>
+                        <div class="dropdown-menu">
+                            <form method="POST" th:action="@{/changeSituation}" th:object ="${model}">
+                                <button type="submit" class="dropdown-item" name="situation" value = "5V5">5 v 5</button>
+                            </form>
+                            <form method="POST" th:action="@{/changeSituation}" th:object:${model}>
+                                <button type="submit" class="dropdown-item" name="situation" value = "PP">Powerplay </button>
+                            </form>
+                            <a class="dropdown-item" href="#">5 v 5</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Power Play</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Penalty Kill</a>
+                            <a class="dropdown-item" href="#">3 v 5</a>
+                            <a class="dropdown-item" href="#">4 v 4</a>
+                        </div>
+                    </div>
+                </div>
+                <div class = "col card-body">
+                    <!-- Adjust whether man advantage or even strength -->
+
+                    <h5  align="center"> 5V5 FORWARD LINES</h5>
+                    <div class = "row  lineup-row" >
                             <div id = "lw1" class = "col position">Left Wing</div>
                             <div id = "c1" class = "col position">Center</div>
-                            <div id = "rw1" class = "col">Right Wing</div>
+                            <div id = "rw1" class = "col position">Right Wing</div>
                     </div>
-                    <div class = "row lineup-grid">
+                    <div class = "row lineup-row">
                             <div id = "lw2" class = "col position">Left Wing</div>
                             <div id = "c2" class = "col position">Center</div>
                             <div id = "rw2" class = "col position">Right Wing</div>
                     </div>
-                    <div class = "row lineup-grid" >
+                    <div class = "row lineup-row" >
                             <div id = "lw3" class = "col position">Left Wing</div>
                             <div id = "c3" class = "col position">Center</div>
                             <div id = "rw3" class = "col position">Right Wing</div>
                     </div>
-                    <div class = "row lineup-grid" >
+                    <div class = "row lineup-row" >
                             <div id = "lw4" class = "col position">Left Wing</div>
                             <div id = "c4" class = "col position">Center</div>
                             <div id = "rw4" class = "col position">Right Wing</div>
                     </div>
-                    <div class = "row  lineup-grid" >
+                    <h5 style="margin-top:8px" align="center"> 5V5 DEFENSIVE PAIRS</h5>
+                    <div class = "row  lineup-row" >
                         <div id = "ld1" class = "col position">Left Defense</div>
                         <div id = "rd1" class = "col position">Right Defense</div>
                     </div>
-                    <div class = "row  lineup-grid" >
+                    <div class = "row  lineup-row" >
                         <div id = "ld2" class = "col position">Left Defense</div>
                         <div id = "rd2" class = "col position">Right Defense</div>
                     </div>
-                    <div class = "row  lineup-grid" >
+                    <div class = "row  lineup-row" >
                         <div id = "ld3" class = "col position">Left Defense</div>
                         <div id = "rd3" class = "col position">Right Defense</div>
                     </div>
-                    <div id = "goal-row  lineup-grid" class = "row ">
+                    <div id = "goal-row  lineup-row" class = "row ">
                         <div id = "G1" class = "col position">
                             Starting Goaltender
                         </div>
                     </div>
-                    <div id = "goal-row2  lineup-grid" class = "row  " >
+                    <div id = "goal-row2  lineup-row" class = "row  " >
                         <div id = "G2" class = "col position">
                             Backup Goaltender
                         </div>
@@ -141,7 +168,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.js"></script>
 <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

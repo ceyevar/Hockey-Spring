@@ -1,16 +1,29 @@
 /*
 *   My custom stylesheet for my app
 */
+
+
 .home-bg{
-    background-color: #F1EFE5;
+    background-color: #3D5046;
+}
+.navbar{
+    background-color : #FAFAF9;
 }
 .card{
     margin: 5px;
+    background-color : #FAFAF9;
+}
+.lineup-row:nth-child(odd){
+    background-color : #decbc8;
+}
+.lineup-row:nth-child(even){
+    background-color : #90B3AE;
 }
 .position{
     text-align: center;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
+    padding: 5px;
+    border-left: 2px solid #FAFAF9;
+    border-top: 2px solid #FAFAF9;
 }
 .card-header{
 
