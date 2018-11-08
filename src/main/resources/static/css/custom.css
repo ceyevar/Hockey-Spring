@@ -1,0 +1,17 @@
+/*
+*   My custom stylesheet for my app
+*/
+.home-bg{
+    background-color: #F1EFE5;
+}
+.card{
+    margin: 5px;
+}
+.position{
+    text-align: center;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+.card-header{
+
+}
