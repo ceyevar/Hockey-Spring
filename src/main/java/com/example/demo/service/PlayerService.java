@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,11 +57,39 @@ public class PlayerService {
 		}
 
 	}
+
+	public void addPlayer(Player p){
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "INSERT INTO PLAYER(name,teamID, position, offskills,defskills, goalieskills) VALUES(?,?,?,?,?,?)";
+		try {
+			jdbcTemplate.update(sql,
+					new Object[]{
+						p.getName(), p.getTeamID(), p.getPosition(), p.getOffskills(), p.getDefskills(), p.getGoalieskills()});
+		}
+		catch(Exception e){
+			System.out.println("AddPlayer :" + e);
+		}
+	}
 	public Player findPlayerByID(int id){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String sql = "SELECT * FROM PLAYER WHERE id = ?";
 		try {
 			Player data = jdbcTemplate.queryForObject(sql,
+					new PlayerMapper(),
+					new Object[]{id});
+			return data;
+		}
+		catch(EmptyResultDataAccessException e){
+			return null;
+		}
+
+	}
+	public List<Player> findPlayersByTeam(int id){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "SELECT * FROM PLAYER WHERE teamID = ?";
+		try {
+			List<Player> data = jdbcTemplate.query(sql,
 					new PlayerMapper(),
 					new Object[]{id});
 			return data;

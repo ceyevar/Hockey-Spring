@@ -55,16 +55,16 @@
 
 <!-- NavBar ends, start home page -->
 
-<div class="container " style="margin-top: 15px;">
+<div class="container-fluid" style="margin-top: 15px;">
     <div class = "row" >
-        <div class = "col">
+        <div class = "col-md-5">
             <div class = "card">
                 <div class="card-header">
+                    <h2 th:text="${situation}"/>
                     <div class="btn-group dropright">
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropright
+                            Choose Situation
                         </button>
-                        <h2 th:text="${situation}"/>
                         <div class="dropdown-menu">
                             <form method="POST" th:action="@{/changeSituation}" th:object ="${model}">
                                 <button type="submit" class="dropdown-item" name="situation" value = "5V5">5 v 5</button>
@@ -132,16 +132,21 @@
                 </div>
             </div>
         </div>
-            <div class = "col">
-                <div class = "card">
+            <div class = "col-md-7">
+                    <div class = "card">
                     <div class="card-header">Roster</div>
                     <div class = "col card-body">
                         <h2>Add Player Information</h2>
-                        <form method = "POST" th:action = "@{/addPlayer}" th:object = "${player}">
+                        <div class = "row">
+                            <form method = "POST" th:action = "@{/addPlayer}" th:object = "${player}">
                             <table>
                                 <tr>
                                     <td><label >Name</label></td>
                                     <td><input th:field = "*{name}" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label >Position</label></td>
+                                    <td><input th:field = "*{position}" /></td>
                                 </tr>
                                 <tr>
                                     <td><label >Off Skills</label></td>
@@ -158,6 +163,28 @@
                                 </tr>
                             </table>
                         </form>
+                        </div>
+                        <div class = "row mt-5">
+                            <table class = "table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th scope = 'col'>Name</th>
+                                    <th scope = 'col'>Position</th>
+                                    <th scope = 'col'>Offense Skills</th>
+                                    <th scope = 'col'>Defensive Skills</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class = "clickable-row" th:each="player,iterStat: ${players}" th:data-href ="@{'/player/'+ ${player.id}}">
+                                    <!--<td th:text="${player.id}" />-->
+                                    <td th:text = "${player.name}" />
+                                    <td th:text = "${player.position}" />
+                                    <td th:text = "${player.offskills}" />
+                                    <td th:text= "${player.defskills}" />
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -74,6 +74,10 @@ public class WebController {
 
 	@RequestMapping(value = "/")
 	public String indexForm(Model model){
+		List<Player> players = null;
+		players = sp.findPlayersByTeam(-1);
+
+		model.addAttribute("players", players);
 		model.addAttribute("situation", "Even Strength 5 v 5");
 		return "index";
 	}
@@ -86,9 +90,17 @@ public class WebController {
 	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
 	public String addPlayer(@ModelAttribute("player") Player player,
 									 ModelMap model) {
-		model.addAttribute("name", player.getName());
-		model.addAttribute("offskills", player.getOffskills());
-		model.addAttribute("defskills", player.getDefskills());
+
+		player.setTeamID(-1);
+		player.setGoalieskills(0);
+		sp.addPlayer(player);
+
+		List<Player> players = null;
+		players = sp.findPlayersByTeam(-1);
+
+
+		model.addAttribute("players", players);
+
 
 		return "index";
 	}
