@@ -1,8 +1,13 @@
 /*
 *   My custom stylesheet for my app
 */
-
-
+.
+.lineup-drop-hover{
+    background-color: #3D5046;
+}
+.btn-minus{
+    background-color: #FAFAF9;
+}
 .home-bg{
     background-color: #3D5046;
 }
