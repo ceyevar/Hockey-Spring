@@ -1,10 +1,13 @@
 package com.example.demo.model;
 
 import com.example.demo.service.PlayerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,10 +19,20 @@ public class Team {
 	private String teamName;
 	private HashMap<String, Boolean> assignedPositions = new HashMap<String, Boolean>();
 
+
 	//this is the gametime lineup
 	private int C1,LW1,RW1,C2,LW2,RW2, C3, LW3, RW3, C4, LW4, RW4,
 			LD1, RD1,LD2, RD2, LD3, RD3, G1, G2;
 
+	private String sC1,sLW1,sRW1,sC2,sLW2,sRW2, sC3, sLW3, sRW3, sC4, sLW4, sRW4,
+			sLD1, sRD1,sLD2, sRD2, sLD3, sRD3, sG1, sG2;
+
+
+	public Team(){
+		C1 = -1;
+		LW1 = -1;
+		RW1 = -1;
+	}
 	public void setEmptyAssignments(){
 		String[] positions = {"C1", "LW1", "LW1",
 									 "C2", "LW2", "RW2",
@@ -241,6 +254,7 @@ public class Team {
 		assignedPositions.put("G1", true);
 		G1 = g1;
 	}
+
 	public void setPosition(String pos, int id){
 		if(pos.equals("C1")){
 			C1 = id;
@@ -304,4 +318,167 @@ public class Team {
 		}
 
 	}
+
+	public String getsC1() {
+		return sC1;
+	}
+
+	public void setsC1(String sC1) {
+		this.sC1 = sC1;
+	}
+
+	public String getsLW1() {
+		return sLW1;
+	}
+
+	public void setsLW1(String sLW1) {
+		this.sLW1 = sLW1;
+	}
+
+	public String getsRW1() {
+		return sRW1;
+	}
+
+	public void setsRW1(String sRW1) {
+		this.sRW1 = sRW1;
+	}
+
+	public String getsC2() {
+		return sC2;
+	}
+
+	public void setsC2(String sC2) {
+		this.sC2 = sC2;
+	}
+
+	public String getsLW2() {
+		return sLW2;
+	}
+
+	public void setsLW2(String sLW2) {
+		this.sLW2 = sLW2;
+	}
+
+	public String getsRW2() {
+		return sRW2;
+	}
+
+	public void setsRW2(String sRW2) {
+		this.sRW2 = sRW2;
+	}
+
+	public String getsC3() {
+		return sC3;
+	}
+
+	public void setsC3(String sC3) {
+		this.sC3 = sC3;
+	}
+
+	public String getsLW3() {
+		return sLW3;
+	}
+
+	public void setsLW3(String sLW3) {
+		this.sLW3 = sLW3;
+	}
+
+	public String getsRW3() {
+		return sRW3;
+	}
+
+	public void setsRW3(String sRW3) {
+		this.sRW3 = sRW3;
+	}
+
+	public String getsC4() {
+		return sC4;
+	}
+
+	public void setsC4(String sC4) {
+		this.sC4 = sC4;
+	}
+
+	public String getsLW4() {
+		return sLW4;
+	}
+
+	public void setsLW4(String sLW4) {
+		this.sLW4 = sLW4;
+	}
+
+	public String getsRW4() {
+		return sRW4;
+	}
+
+	public void setsRW4(String sRW4) {
+		this.sRW4 = sRW4;
+	}
+
+	public String getsLD1() {
+		return sLD1;
+	}
+
+	public void setsLD1(String sLD1) {
+		this.sLD1 = sLD1;
+	}
+
+	public String getsRD1() {
+		return sRD1;
+	}
+
+	public void setsRD1(String sRD1) {
+		this.sRD1 = sRD1;
+	}
+
+	public String getsLD2() {
+		return sLD2;
+	}
+
+	public void setsLD2(String sLD2) {
+		this.sLD2 = sLD2;
+	}
+
+	public String getsRD2() {
+		return sRD2;
+	}
+
+	public void setsRD2(String sRD2) {
+		this.sRD2 = sRD2;
+	}
+
+	public String getsLD3() {
+		return sLD3;
+	}
+
+	public void setsLD3(String sLD3) {
+		this.sLD3 = sLD3;
+	}
+
+	public String getsRD3() {
+		return sRD3;
+	}
+
+	public void setsRD3(String sRD3) {
+		this.sRD3 = sRD3;
+	}
+
+	public String getsG1() {
+		return sG1;
+	}
+
+	public void setsG1(String sG1) {
+		this.sG1 = sG1;
+	}
+
+	public String getsG2() {
+		return sG2;
+	}
+
+	public void setsG2(String sG2) {
+		this.sG2 = sG2;
+	}
+
+
+
 }

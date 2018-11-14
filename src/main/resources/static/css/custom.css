@@ -2,9 +2,8 @@
 *   My custom stylesheet for my app
 */
 .
-.lineup-drop-hover{
-    background-color: #3D5046;
-}
+
+
 .btn-minus{
     background-color: #FAFAF9;
 }
@@ -25,10 +24,14 @@
     background-color : #90B3AE;
 }
 .position{
+    background-color: transparent;
     text-align: center;
     padding: 5px;
     border-left: 2px solid #FAFAF9;
     border-top: 2px solid #FAFAF9;
+}
+.lineup-drop-hover{
+    background-color: #3D5046;
 }
 .card-header{
 

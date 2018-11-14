@@ -63,7 +63,7 @@
         <div class = "col-md-5">
             <div class = "card">
                 <div class="card-header">
-                    <h2 th:text="${situation}"/>
+                    <h3 th:text="${situation}"/>
                     <div class="btn-group dropright">
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Choose Situation
@@ -72,7 +72,7 @@
                             <form method="POST" th:action="@{/changeSituation}" th:object ="${model}">
                                 <button type="submit" class="dropdown-item" name="situation" value = "5V5">5 v 5</button>
                             </form>
-                            <form method="POST" th:action="@{/changeSituation}" th:object:${model}>
+                            <form method="POST" th:action="@{/changeSituation}" th:object = "${model}">
                                 <button type="submit" class="dropdown-item" name="situation" value = "PP">Powerplay </button>
                             </form>
                             <a class="dropdown-item" href="#">5 v 5</a>
@@ -88,51 +88,70 @@
                 <div class = "col card-body">
                     <!-- Adjust whether man advantage or even strength -->
 
-                    <h5  align="center"> 5V5 FORWARD LINES</h5>
-                    <div class = "row  lineup-row " >
-                            <div id = "lw1" class = "col position droppable">Left Wing</div>
-                            <div id = "c1" class = "col position droppable">Center</div>
-                            <div id = "rw1" class = "col position droppable">Right Wing</div>
-                    </div>
-                    <div class = "row lineup-row">
-                            <div id = "lw2" class = "col position">Left Wing</div>
-                            <div id = "c2" class = "col position">Center</div>
-                            <div id = "rw2" class = "col position">Right Wing</div>
-                    </div>
-                    <div class = "row lineup-row" >
-                            <div id = "lw3" class = "col position">Left Wing</div>
-                            <div id = "c3" class = "col position">Center</div>
-                            <div id = "rw3" class = "col position">Right Wing</div>
-                    </div>
-                    <div class = "row lineup-row" >
-                            <div id = "lw4" class = "col position">Left Wing</div>
-                            <div id = "c4" class = "col position">Center</div>
-                            <div id = "rw4" class = "col position">Right Wing</div>
-                    </div>
-                    <h5 style="margin-top:8px" align="center"> 5V5 DEFENSIVE PAIRS</h5>
-                    <div class = "row  lineup-row" >
-                        <div id = "ld1" class = "col position">Left Defense</div>
-                        <div id = "rd1" class = "col position">Right Defense</div>
-                    </div>
-                    <div class = "row  lineup-row" >
-                        <div id = "ld2" class = "col position">Left Defense</div>
-                        <div id = "rd2" class = "col position">Right Defense</div>
-                    </div>
-                    <div class = "row  lineup-row" >
-                        <div id = "ld3" class = "col position">Left Defense</div>
-                        <div id = "rd3" class = "col position">Right Defense</div>
-                    </div>
-                    <div id = "goal-row  lineup-row" class = "row ">
-                        <div id = "G1" class = "col position">
-                            Starting Goaltender
+                        <h5  align="center"> 5V5 FORWARD LINES</h5>
+                        <form method="POST" th:action="@{/confirmLines}" th:object = "${team}">
+                        <div class = "row  lineup-row">
+                            <input id = "lw1" class = "col position droppable" th:field = "${team.sLW1}" readonly/>
+                            <input id = "lw1-id" hidden = "true" th:field = "*{LW1}" readonly/>
+                            <input id = "c1" class = "col position droppable" th:field = "${team.sC1}" readonly />
+                            <input id = "c1-id" hidden = "true" th:field = "*{C1}" readonly/>
+                            <input id = "rw1" class = "col position droppable" th:field = "${team.sRW1}" readonly />
+                            <input id = "rw1-id" hidden = "true" th:field = "*{RW1}" readonly/>
                         </div>
-                    </div>
-                    <div id = "goal-row2  lineup-row" class = "row  " >
-                        <div id = "G2" class = "col position">
-                            Backup Goaltender
+
+                        <div class = "row  lineup-row">
+                            <input id = "lw2" class = "col position droppable" th:field = "${team.sLW2}" readonly/>
+                            <input id = "lw2-id" hidden = "true" th:field = "*{LW2}" readonly/>
+                            <input id = "c2" class = "col position droppable" th:field = "${team.sC2}" readonly />
+                            <input id = "c2-id" hidden = "true" th:field = "*{C2}" readonly/>
+                            <input id = "rw2" class = "col position droppable" th:field = "${team.sRW2}" readonly />
+                            <input id = "rw2-id" hidden = "true" th:field = "*{RW2}" readonly/>
                         </div>
-                    </div>
-                </div>
+
+                        <div class = "row  lineup-row">
+                            <input id = "lw3" class = "col position droppable" th:field = "${team.sLW3}" readonly/>
+                            <input id = "lw3-id" hidden = "true" th:field = "*{LW3}" readonly/>
+                            <input id = "c3" class = "col position droppable" th:field = "${team.sC3}" readonly />
+                            <input id = "c3-id" hidden = "true" th:field = "*{C3}" readonly/>
+                            <input id = "rw3" class = "col position droppable" th:field = "${team.sRW3}" readonly />
+                            <input id = "rw3-id" hidden = "true" th:field = "*{RW3}" readonly/>
+                        </div>
+
+                        <div class = "row  lineup-row">
+                            <input id = "lw4" class = "col position droppable" th:field = "${team.sLW4}" readonly/>
+                            <input id = "lw4-id" hidden = "true" th:field = "*{LW4}" readonly/>
+                            <input id = "c4" class = "col position droppable" th:field = "${team.sC4}" readonly />
+                            <input id = "c4-id" hidden = "true" th:field = "*{C4}" readonly/>
+                            <input id = "rw4" class = "col position droppable" th:field = "${team.sRW4}" readonly />
+                            <input id = "rw4-id" hidden = "true" th:field = "*{RW4}" readonly/>
+                        </div>
+
+                        <h5 style="margin-top:8px" align="center"> 5V5 DEFENSIVE PAIRS</h5>
+                        <div class = "row  lineup-row" >
+                            <div id = "ld1" class = "col position droppable">Left Defense</div>
+                            <div id = "rd1" class = "col position droppable">Right Defense</div>
+                        </div>
+                        <div class = "row  lineup-row" >
+                            <div id = "ld2" class = "col position droppable">Left Defense</div>
+                            <div id = "rd2" class = "col position droppable">Right Defense</div>
+                        </div>
+                        <div class = "row  lineup-row" >
+                            <div id = "ld3" class = "col position droppable">Left Defense</div>
+                            <div id = "rd3" class = "col position droppable">Right Defense</div>
+                        </div>
+                        <div id = "goal-row  lineup-row" class = "row ">
+                            <div id = "G1" class = "col position droppable">
+                                Starting Goaltender
+                            </div>
+                        </div>
+                        <div id = "goal-row2  lineup-row" class = "row  " >
+                            <div id = "G2" class = "col position droppable">
+                                Backup Goaltender
+                            </div>
+                        </div>
+                            <input class = "btn" type = "submit" value = "Submit"/>
+                        </form>
+            </div>
             </div>
         </div>
             <div class = "col-md-7">
@@ -141,6 +160,7 @@
                     <div class = "col card-body">
                         <h2>Add Player Information</h2>
                         <div class = "row">
+
                             <form method = "POST" th:action = "@{/addPlayer}" th:object = "${player}">
                             <table>
                                 <tr>
@@ -179,8 +199,8 @@
                                 </thead>
                                 <tbody>
                                 <tr class = "clickable-row draggable"  th:each="player,iterStat: ${players}" th:data-href ="@{'/player/'+ ${player.id}}">
-                                    <!--<td th:text="${player.id}" />-->
                                     <td id ="name" th:text = "${player.name}" />
+                                    <td  id="id"  th:text="${player.id}" hidden="true"/>
                                     <td th:text = "${player.position}" />
                                     <td th:text = "${player.offskills}" />
                                     <td th:text= "${player.defskills}" />
@@ -216,10 +236,15 @@
                hoverClass: "lineup-drop-hover",
                accept: ".draggable",
                drop: function(e, ui) {
-                  var pid = ui.draggable.find('td:first').text();
-
-                  $(this).html(pid);
-
+                  var name = ui.draggable.find('td:first').text();
+                  var pid = ui.draggable.find('td:nth-child(2)').text();
+                  $(this)
+                      .val(name)
+                      .text(name)
+                  var element = '#' + this.id + '-id';
+                  $(element)
+                      .val(pid)
+                      .text(pid);
                }
             });
          });
