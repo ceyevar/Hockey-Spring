@@ -28,7 +28,7 @@ public class PlayerService {
 
 	public List<Player> findPlayersByName(String name){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "SELECT * FROM PLAYER WHERE name LIKE ? ";
+		String sql = "SELECT * FROM PLAYER WHERE UPPER(name) LIKE UPPER(?) ";
 		try {
 			List<Player> data = jdbcTemplate.query(sql,
 					new PlayerMapper(),

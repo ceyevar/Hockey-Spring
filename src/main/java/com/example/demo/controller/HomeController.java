@@ -5,6 +5,7 @@ import com.example.demo.model.Player;
 import com.example.demo.model.SearchCommand;
 import com.example.demo.model.Team;
 import com.example.demo.service.PlayerService;
+import com.example.demo.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
@@ -16,16 +17,19 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Date;
 import java.util.List;
 
+
 @Controller
-@SessionAttributes("team")
-public class WebController {
+@SessionAttributes({"team", "currentTeam"})
+public class HomeController {
 	private String appMode;
+	private int currentTeam = -1;
+	@Autowired
+	PlayerService ps;
+	@Autowired
+	TeamService ts;
 
 	@Autowired
-	PlayerService sp;
-
-	@Autowired
-	public WebController(Environment environment){
+	public HomeController(Environment environment){
 		appMode = environment.getProperty("app-mode");
 	}
 
@@ -44,16 +48,7 @@ public class WebController {
 		return indexForm(model);
 	}
 
-	@RequestMapping(value = "/player/{playerId}")
-	public String getPlayer(@PathVariable String playerId, ModelMap model){
 
-		Player player = null;
-
-		player = sp.findPlayerByID(Integer.parseInt(playerId));
-
-		model.addAttribute("player", player);
-		return "player";
-	}
 	@ModelAttribute("searchCommand")
 	public SearchCommand getSearchCommand(ModelMap model) {
 		return new SearchCommand();
@@ -66,7 +61,7 @@ public class WebController {
 
 		List<Player> players = null;
 		if(searchString != null){
-			players = sp.findPlayersByName(searchString);
+			players = ps.findPlayersByName(searchString);
 		}
 
 		model.addAttribute("players", players);
@@ -75,15 +70,22 @@ public class WebController {
 	}
 	@RequestMapping(value = "/confirmLines", method = RequestMethod.POST)
 		public String saveLines(@ModelAttribute("team") Team team, ModelMap model){
-		model.addAttribute("team", team);
-		return indexForm(model);
+			Team updatedTeam = getTeam(team,model);
+			model.addAttribute("team", updatedTeam);
+			ts.updateTeamRow(getTeam(team, model));
+			return indexForm(model);
 	}
 
 	@RequestMapping(value = "/")
 	public String indexForm(ModelMap model){
 		List<Player> players = null;
-		players = sp.findPlayersByTeam(-1);
+		Team team = null;
 
+		players = ps.findPlayersByTeam(currentTeam);
+		team = getTeam(ts.findTeamById(currentTeam), model);
+
+		model.addAttribute("currentTeam", currentTeam);
+		model.addAttribute("team", team);
 		model.addAttribute("players", players);
 		if(!model.containsAttribute("situation")){
 			model.addAttribute("situation", "Even Strength 5v5");
@@ -92,23 +94,37 @@ public class WebController {
 	}
 
 	@ModelAttribute("team")
-	public Team getTeam(@ModelAttribute Team team, ModelMap model){
-		Team t = new Team();
+	public Team getTeam(@ModelAttribute Team t, ModelMap model){
+		if(t == null) {
+			t = new Team();
+			return t;
+		}
 
-		Player C1 = sp.findPlayerByID(t.getC1());
-		Player C2 = sp.findPlayerByID(t.getC2());
-		Player C3 = sp.findPlayerByID(t.getC3());
-		Player C4 = sp.findPlayerByID(t.getC4());
+		Player C1 = ps.findPlayerByID(t.getC1());
+		Player C2 = ps.findPlayerByID(t.getC2());
+		Player C3 = ps.findPlayerByID(t.getC3());
+		Player C4 = ps.findPlayerByID(t.getC4());
 
-		Player LW1 = sp.findPlayerByID(t.getLW1());
-		Player LW2 = sp.findPlayerByID(t.getLW2());
-		Player LW3 = sp.findPlayerByID(t.getLW3());
-		Player LW4 = sp.findPlayerByID(t.getLW4());
+		Player LW1 = ps.findPlayerByID(t.getLW1());
+		Player LW2 = ps.findPlayerByID(t.getLW2());
+		Player LW3 = ps.findPlayerByID(t.getLW3());
+		Player LW4 = ps.findPlayerByID(t.getLW4());
 
-		Player RW1 = sp.findPlayerByID(t.getRW1());
-		Player RW2 = sp.findPlayerByID(t.getRW2());
-		Player RW3 = sp.findPlayerByID(t.getRW3());
-		Player RW4 = sp.findPlayerByID(t.getRW4());
+		Player RW1 = ps.findPlayerByID(t.getRW1());
+		Player RW2 = ps.findPlayerByID(t.getRW2());
+		Player RW3 = ps.findPlayerByID(t.getRW3());
+		Player RW4 = ps.findPlayerByID(t.getRW4());
+
+		Player LD1 = ps.findPlayerByID(t.getLD1());
+		Player LD2 = ps.findPlayerByID(t.getLD2());
+		Player LD3 = ps.findPlayerByID(t.getLD3());
+
+		Player RD1 = ps.findPlayerByID(t.getRD1());
+		Player RD2 = ps.findPlayerByID(t.getRD2());
+		Player RD3 = ps.findPlayerByID(t.getRD3());
+
+		Player G1 = ps.findPlayerByID(t.getG1());
+		Player G2 = ps.findPlayerByID(t.getG2());
 
 		if(C1 != null)
 			t.setsC1(C1.getName());
@@ -132,11 +148,30 @@ public class WebController {
 			t.setsRW3(RW3.getName());
 
 		if(C4 != null)
-			t.setsC1(C4.getName());
+			t.setsC4(C4.getName());
 		if(LW4 != null)
-			t.setsLW1(LW4.getName());
+			t.setsLW4(LW4.getName());
 		if(RW4 != null)
-			t.setsRW1(RW4.getName());
+			t.setsRW4(RW4.getName());
+
+		if(LD1 != null)
+			t.setsLD1(LD1.getName());
+		if(LD2 != null)
+			t.setsLD2(LD2.getName());
+		if(LD3 != null)
+			t.setsLD3(LD3.getName());
+
+		if(RD1 != null)
+			t.setsRD1(RD1.getName());
+		if(RD2 != null)
+			t.setsRD2(RD2.getName());
+		if(RD3 != null)
+			t.setsRD3(RD3.getName());
+
+		if(G1 != null)
+			t.setsG1(G1.getName());
+		if(G2 != null)
+			t.setsG2(G2.getName());
 
 		return t;
 	}
@@ -147,17 +182,25 @@ public class WebController {
 		return p;
 	}
 
+	@RequestMapping(value = "/team/{teamId}")
+	public String getPlayer(@PathVariable String teamId, ModelMap model){
+
+		currentTeam = Integer.valueOf(teamId);
+
+		model.addAttribute("currentTeam", teamId);
+		return indexForm(model);
+	}
+
 	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
 	public String addPlayer(@ModelAttribute("player") Player player,
 									 ModelMap model) {
 
-		player.setTeamID(-1);
+		player.setTeamID(currentTeam);
 		player.setGoalieskills(0);
-		sp.addPlayer(player);
+		ps.addPlayer(player);
 
 		List<Player> players = null;
-		players = sp.findPlayersByTeam(-1);
-
+		players = ps.findPlayersByTeam(currentTeam);
 
 		model.addAttribute("players", players);
 		return indexForm(model);
