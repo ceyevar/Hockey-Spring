@@ -122,8 +122,19 @@ public class HomeController {
 		model.addAttribute("currentTeam", teamId);
 		return indexForm(model);
 	}
+	@RequestMapping(value = "/removePlayer/{playerid}")
+	public String removePlayer(@PathVariable int playerid,
+									ModelMap model) {
 
-	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
+		ps.updatePlayerTeam(playerid, 0);
+
+		List<Player> players = null;
+		players = ps.findPlayersByTeam(currentTeam);
+
+		model.addAttribute("players", players);
+		return indexForm(model);
+	}
+	@RequestMapping(value = "/addPlayer/", method = RequestMethod.POST)
 	public String addPlayer(@ModelAttribute("player") Player player,
 									 ModelMap model) {
 

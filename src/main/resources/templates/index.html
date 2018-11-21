@@ -12,6 +12,7 @@
 
     <title>Hockey 2019 Home</title>
 
+
     <!-- Bootstrap core CSS -->
     <link href="../static/font-awesome-4.7.0/font-awesome.min.css" rel="stylesheet" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}"/>
     <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
@@ -137,8 +138,10 @@
                         <h5  align="center"> 5V5 FORWARD LINES</h5>
                         <form method="POST" th:action="@{/confirmLines}" th:object = "${team}">
                             <div class = "row  lineup-row">
-                                <div id = "lw1" class = "col-md-4 position droppable draggable " th:text = "${team.sLW1}"> Left Wing</div>
-                                <input id = "lw1-id" hidden = "true" th:field = "*{LW1}" ></input>
+                                <a href="#"  id = "lw1" class = "col-md-4 position droppable draggable"
+                                   data-toggle="tooltip" title="Some tooltip text!"
+                                   th:text = "${team.sLW1}"> Left Wing</a>
+                               <input id = "lw1-id" hidden = "true" th:field = "*{LW1}" ></input>
                                 <div id = "c1" class = "col-md-4  position droppable draggable" th:text = "${team.sC1}"> Center </div>
                                 <input id = "c1-id" hidden = "true" th:field = "*{C1}" ></input>
                                 <div id = "rw1" class = "col-md-4  position droppable draggable" th:text = "${team.sRW1}" > Right Wing</div>
@@ -211,37 +214,8 @@
             <div class = "card">
                 <div class="card-header">Roster</div>
                 <div class = "col card-body">
-                    <h2>Add Player Information</h2>
-                    <div class = "row">
-                        <form method = "POST" th:action = "@{/addPlayer}" th:object = "${player}">
-                            <table>
-                                <tr>
-                                    <td><label >Name</label></td>
-                                    <td><input th:field = "*{name}" /></td>
-                                </tr>
-                                <tr>
-                                    <td><label >Position</label></td>
-                                    <td><input th:field = "*{position}" /></td>
-                                </tr>
-                                <tr>
-                                    <td><label >Off Skills</label></td>
-                                    <td><input th:field = "*{offskills}" /></td>
-                                </tr>
-                                <tr>
-                                    <td><label> Def skills</label></td>
-                                    <td><input th:field = "*{defskills}" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "2">
-                                        <input type = "submit" value = "Submit"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-
                     <div class = "row mt-5">
-                        <div style = "height: 600px; overflow:auto;width: 100%;">
+                        <div style = "height: 625px; overflow:auto;width: 100%;">
                         <table class = "table table-sm table-hover " >
                             <thead>
                             <tr>
@@ -251,7 +225,9 @@
                                 <th scope = 'col'>Defensive Skills</th>
                             </tr>
                             </thead>
+
                             <tbody>
+
                                 <tr class = "clickable-row draggable"  th:each="player,iterStat: ${players}">
                                     <td id ="name" th:text = "${player.name}" />
                                     <td  id="id"  th:text="${player.id}" hidden="true"/>
@@ -259,9 +235,9 @@
                                     <td th:text = "${player.offskills}" />
                                     <td th:text= "${player.defskills}" />
                                     <td>
-                                        <button class="btn btn-minus btn-sm" >
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                                        <a class = "btn btn-sm" style = "background-color: #3d5046; color: #e6efdc; box-shadow: inset 1px 1px 2px #cce2d6;" th:href ="@{'/removePlayer/'+ ${player.id}}">
+                                                <i class="fa fa-minus"></i>
+                                        </a>
                                     </td>
                                     <td>
                                         <a class = "btn btn-minus" th:href ="@{'/player/'+ ${player.id}}">
@@ -270,9 +246,10 @@
                                         </a>
                                     </td>
                                 </tr>
+
                             </tbody>
                         </table>
-                        </div>
+                    </div>
                     </div>
 
                 </div>
@@ -288,8 +265,12 @@
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
 
+
+
+
 <script>
          $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
             $('.draggable').draggable({
                 helper: "clone"
             });

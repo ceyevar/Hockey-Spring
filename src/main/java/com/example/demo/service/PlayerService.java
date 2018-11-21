@@ -57,7 +57,20 @@ public class PlayerService {
 		}
 
 	}
+	public void updatePlayerTeam(int playerid, int teamid){
 
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "UPDATE PLAYER" +
+				" SET teamID = ? where id = ?";
+		try {
+			jdbcTemplate.update(sql,
+					new Object[]{
+							teamid, playerid});
+		}
+		catch(Exception e){
+			System.out.println("AddPlayer :" + e);
+		}
+	}
 	public void addPlayer(Player p){
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
