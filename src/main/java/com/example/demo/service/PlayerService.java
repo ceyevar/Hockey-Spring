@@ -87,7 +87,7 @@ public class PlayerService {
 	}
 	public List<Player> findPlayersByTeam(int id){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "SELECT * FROM PLAYER WHERE teamID = ?";
+		String sql = "SELECT * FROM PLAYER WHERE teamID = ? ORDER BY position DESC";
 		try {
 			List<Player> data = jdbcTemplate.query(sql,
 					new PlayerMapper(),

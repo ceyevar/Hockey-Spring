@@ -1,5 +1,21 @@
 package com.example.demo.components.sim;
 
+
+
+
+public class Game{
+
+	private int homeTeamId;
+	private int awayTeamId;
+	FSM sim;
+	public Game(int homeTeamId, int awayTeamId){
+
+	}
+	public void sim(){
+
+	}
+
+}
 /*
 import database.GameDb;
 import database.PlayerDb;
@@ -9,6 +25,7 @@ import player.Player;
 
 AWAY  | HOME
 -2 -1 0 1 2
+
 
 public class Game {
     FSM gamesim;

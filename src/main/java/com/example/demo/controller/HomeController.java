@@ -1,20 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.components.generator.PlayerGenerator;
 import com.example.demo.model.Player;
 
 import com.example.demo.model.SearchCommand;
 import com.example.demo.model.Team;
+import com.example.demo.service.GeneratorService;
 import com.example.demo.service.PlayerService;
 import com.example.demo.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -23,6 +22,9 @@ import java.util.List;
 public class HomeController {
 	private String appMode;
 	private int currentTeam = -1;
+
+	@Autowired
+	GeneratorService gs;
 	@Autowired
 	PlayerService ps;
 	@Autowired
@@ -34,6 +36,34 @@ public class HomeController {
 	}
 
 
+	@RequestMapping(value = "/")
+	public String indexForm(ModelMap model){
+		List<Player> players = null;
+		Team team = null;
+
+		if(gs.countRowsInFirstLast() == 0){
+			gs.insertAllNames();
+		}
+		/*
+		PlayerGenerator pg = new PlayerGenerator();
+		pg.setGeneratorService(gs);
+		for(int i=0; i<23; ++i) {
+			Player p = pg.getNext();
+			ps.addPlayer(p);
+		}*/
+
+
+		players = ps.findPlayersByTeam(currentTeam);
+		team = getTeam(ts.findTeamById(currentTeam), model);
+
+		model.addAttribute("currentTeam", currentTeam);
+		model.addAttribute("team", team);
+		model.addAttribute("players", players);
+		if(!model.containsAttribute("situation")){
+			model.addAttribute("situation", "Even Strength 5v5");
+		}
+		return "index";
+	}
 
 	@RequestMapping(value="/changeSituation", method=RequestMethod.POST, params="situation=PP")
 	public String powerplay(ModelMap model) {
@@ -76,21 +106,36 @@ public class HomeController {
 			return indexForm(model);
 	}
 
-	@RequestMapping(value = "/")
-	public String indexForm(ModelMap model){
+
+
+	@ModelAttribute("player")
+	public Player getPlayer(ModelMap model) {
+		Player p = new Player();
+		return p;
+	}
+
+	@RequestMapping(value = "/team/{teamId}")
+	public String getPlayer(@PathVariable String teamId, ModelMap model){
+
+		currentTeam = Integer.valueOf(teamId);
+
+		model.addAttribute("currentTeam", teamId);
+		return indexForm(model);
+	}
+
+	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
+	public String addPlayer(@ModelAttribute("player") Player player,
+									 ModelMap model) {
+
+		player.setTeamID(currentTeam);
+		player.setGoalieskills(0);
+		ps.addPlayer(player);
+
 		List<Player> players = null;
-		Team team = null;
-
 		players = ps.findPlayersByTeam(currentTeam);
-		team = getTeam(ts.findTeamById(currentTeam), model);
 
-		model.addAttribute("currentTeam", currentTeam);
-		model.addAttribute("team", team);
 		model.addAttribute("players", players);
-		if(!model.containsAttribute("situation")){
-			model.addAttribute("situation", "Even Strength 5v5");
-		}
-		return "index";
+		return indexForm(model);
 	}
 
 	@ModelAttribute("team")
@@ -176,33 +221,4 @@ public class HomeController {
 		return t;
 	}
 
-	@ModelAttribute("player")
-	public Player getPlayer(ModelMap model) {
-		Player p = new Player();
-		return p;
-	}
-
-	@RequestMapping(value = "/team/{teamId}")
-	public String getPlayer(@PathVariable String teamId, ModelMap model){
-
-		currentTeam = Integer.valueOf(teamId);
-
-		model.addAttribute("currentTeam", teamId);
-		return indexForm(model);
-	}
-
-	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
-	public String addPlayer(@ModelAttribute("player") Player player,
-									 ModelMap model) {
-
-		player.setTeamID(currentTeam);
-		player.setGoalieskills(0);
-		ps.addPlayer(player);
-
-		List<Player> players = null;
-		players = ps.findPlayersByTeam(currentTeam);
-
-		model.addAttribute("players", players);
-		return indexForm(model);
-	}
 }

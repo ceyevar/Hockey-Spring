@@ -77,6 +77,37 @@
     <div class = "row" >
         <div class = "col-md-5">
             <div class = "card">
+                <div class="card-header" th:text = "${team.teamName} + 'at a glance'">
+                </div>
+                <div class = "col card-body">
+                    <table class = "table">
+                        <thead>
+                        <tr>
+                            <th scope = 'col'>W</th>
+                            <th scope = 'col'>L</th>
+                            <th scope = 'col'>OTL</th>
+                            <th scope = 'col'>GF</th>
+                            <th scope = 'col'>GA</th>
+                            <th scope = 'col'>SV%</th>
+                            <th scope = 'col'>SH%</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr scope = "row">
+                            <td id="win" th:text = "10"></td>
+                            <td id="loss" th:text = "5"></td>
+                            <td id="overtime-loss" th:text = "1"></td>
+                            <td id="goals-for" th:text = "40"></td>
+                            <td id="goals-against" th:text = "66"></td>
+                            <td id="save-percentage" th:text = ".901"></td>
+                            <td id="shooting-percentage" th:text = ".104"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class = "card">
                 <div class="card-header">
                     <h3 th:text="${situation}"/>
                     <div class="btn-group dropright">
@@ -174,8 +205,8 @@
                             <input class = "btn" type = "submit" value = "Submit"/>
                         </form>
                     </div>
-                </div>
             </div>
+        </div>
         <div class = "col-md-7">
             <div class = "card">
                 <div class="card-header">Roster</div>
@@ -208,8 +239,10 @@
                             </table>
                         </form>
                     </div>
+
                     <div class = "row mt-5">
-                        <table class = "table table-hover ">
+                        <div style = "height: 600px; overflow:auto;width: 100%;">
+                        <table class = "table table-sm table-hover " >
                             <thead>
                             <tr>
                                 <th scope = 'col'>Name</th>
@@ -239,7 +272,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

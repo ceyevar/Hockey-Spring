@@ -7,6 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TeamGenerator {
 
+	private final static String teamLocations[] = {"New York", "Chicago", "Houston", "San Diego", "Los Angeles", "San Jose" +
+																	"Dallas", "Boston", "Montreal", "Quebec", };
+	private final static String teamNames[] = {"", ""};
 
 	public TeamGenerator(){
 

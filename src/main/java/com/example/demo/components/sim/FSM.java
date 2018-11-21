@@ -1,5 +1,18 @@
 package com.example.demo.components.sim;
 
+
+import com.example.demo.model.Team;
+
+public class FSM {
+	private Team home;
+	private Team away;
+	public FSM(Team home, Team away){
+
+	}
+
+}
+
+/*
 import com.example.demo.model.Player;
 
 
@@ -12,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-/*
+
 public class FSM {
 	private State currentState;
 	private ArrayList<Player> homeOnIce;
